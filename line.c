@@ -45,5 +45,6 @@ void	draw_line(window_data *screen, line_data *line)
 		}
 		i += 1;
 		e += m;
+		line->x1++;
 	}
 }
