@@ -1,23 +1,15 @@
 #include "fdf.h"
 
-line_data	*init_line(void)
+line_data	*init_line(int x1, int y1, int x2, int y2)
 {
 	line_data	*line;
 
 	line = (line_data *)malloc(sizeof(line_data));
-	line->x1 = 0;
-	line->y1 = 0;
-	line->x2 = 0;
-	line->y2 = 0;
-	return (line);
-}
-
-void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
-{
 	line->x1 = x1;
 	line->y1 = y1;
 	line->x2 = x2;
 	line->y2 = y2;
+	return (line);
 }
 
 void	draw_line(window_data *screen, line_data *line)
