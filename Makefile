@@ -9,55 +9,49 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME = fdf
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-NAME = fillit
+FLAGS = -Wall -Wextra -Werror
+LDIR = ./libft
+LIBDIR = $(LDIR)/libft.a
+MLXDIR = ./minilibx/
+MLX = $(MLXDIR)/mlx.a
+IDIR = .
+LFTLIB = -L$ $(LDIR) -lft
+FINDLIB = -I $(MLXDIR) -L$(MLXDIR) -lmlx -framework OpenGL -framework Appkit
+OBJ = $(SRC:.c=.o)
 
-SOURCES =	classify_one.c classify_two.c classify_three.c classify_four.c\
-			conflicts.c	contact.c\
-			first_empty.c\
-			fix_offset.c\
-			generate_shifts.c\
-			get_width.c\
-			is_empty.c\
-			is_valid_functions.c\
-			is_valid_helpers.c\
-			itoa_base.c\
-			main.c\
-			print.c\
-			read.c\
-			shift.c\
-			shift_helpers.c\
-			solve_functions.c\
-			solved.c
-
-OBJ = $(SOURCES:.c=.o)
-
-LIBS = libft/libft.a
-
-.PHONY: all norm clean fclean re
-
-$(NAME): $(OBJ) $(LIBS)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
-
-
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
-
-$(LIBS):
-	make -C ./libft
+SRC = 	main.c\
 
 all: $(NAME)
+
+$(NAME): $(OBJ) 
+	$(CC) $(FLAGS) $(FINDLIB) $(SRC) -o $(NAME)
+
+$(OBJ): $(SRC)
+	$(CC) $(FLAGS) -c $(SRC)
+
+$(SRC): $(LIBS) $(MLX)
+
+$(MLX):
+	make -C ./minilibx
+
+$(LIB):
+	make -C ./libft
 
 norm: fclean
 	norminette $(SOURCES)
 
 clean:
+	make -C ./minilibx/ clean
 	make -C ./libft/ clean
 	/bin/rm -f rm $(OBJ)
 
 fclean: clean
+	make -C ./minilibx/ fclean
 	make -C ./libft/ fclean
 	/bin/rm -f rm $(NAME)
 
 re: fclean all
+
+.PHONY: all norm clean fclean re
