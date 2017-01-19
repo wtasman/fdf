@@ -22,6 +22,8 @@ FINDLIB = -I $(MLXDIR) -L$(MLXDIR) -lmlx -framework OpenGL -framework Appkit
 OBJ = $(SRC:.c=.o)
 
 SRC = 	main.c\
+		make_window.c\
+		line.c
 
 all: $(NAME)
 
