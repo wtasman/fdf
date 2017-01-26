@@ -1,15 +1,41 @@
 #include "fdf.h"
 
-line_data	*init_line(int x1, int y1, int x2, int y2)
+line_data	*init_line(void)
 {
 	line_data	*line;
 
 	line = (line_data *)malloc(sizeof(line_data));
+	line->x1 = 0;
+	line->y1 = 0;
+	line->x2 = 0;
+	line->y2 = 0;
+	return (line);
+}
+
+void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
+{
 	line->x1 = x1;
 	line->y1 = y1;
 	line->x2 = x2;
 	line->y2 = y2;
-	return (line);
+}
+
+void	draw_vertical_line(window_data *screen, line_data *line, int dy)
+{
+	while (dy > 0)
+	{
+		mlx_pixel_put(screen->mlx, screen->window, line->x1, line->y1 + dy, 0x00FFFFFF);
+		dy--;
+	}
+}
+
+void	draw_horizontal_line(window_data *screen, line_data *line, int dx)
+{
+	while (dx > 0)
+	{
+		mlx_pixel_put(screen->mlx, screen->window, line->x1 + dx, line->y1, 0x00FFFFFF);
+		dx--;
+	}
 }
 
 void	draw_line(window_data *screen, line_data *line)
@@ -23,6 +49,16 @@ void	draw_line(window_data *screen, line_data *line)
 
 	dx = line->x2 - line->x1;
 	dy = line->y2 - line->y1;
+	if (dx == 0)
+	{
+		draw_vertical_line(screen, line, dy);
+		return;
+	}
+	if (dy == 0)
+	{
+		draw_horizontal_line(screen, line, dx);
+		return;
+	}
 	m = dy / dx;
 	j = line->y1;
 	e = m - 1;

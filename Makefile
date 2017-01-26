@@ -23,7 +23,8 @@ OBJ = $(SRC:.c=.o)
 
 SRC = 	main.c\
 		make_window.c\
-		line.c
+		line.c\
+		rect.c
 
 all: $(NAME)
 
