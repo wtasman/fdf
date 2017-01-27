@@ -24,7 +24,9 @@ OBJ = $(SRC:.c=.o)
 SRC = 	main.c\
 		make_window.c\
 		line.c\
-		rect.c
+		rect.c\
+		circle.c\
+		triangle.c
 
 all: $(NAME)
 

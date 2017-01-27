@@ -1,5 +1,16 @@
 #include "fdf.h"
 
+#define abs(x) ((x)<0 ? -(x) : (x))
+
+void	swap(int a, int b)
+{
+	int	tmp;
+
+	tmp = a;
+	a = b;
+	b = tmp;
+}
+
 line_data	*init_line(void)
 {
 	line_data	*line;
@@ -40,39 +51,49 @@ void	draw_horizontal_line(window_data *screen, line_data *line, int dx)
 
 void	draw_line(window_data *screen, line_data *line)
 {
-	int dx;
+	int	dx;
 	int dy;
-	int m;
-	int j;
-	float e;
-	int i;
+	float	e;
+	float	d;
+	int y;
+	int	x;
+	int flag;
 
+
+	flag = 0;
+	if (abs(line->x1 - line->x2) < abs(line->y1 - line->y2))
+	{
+		swap(line->x1, line->x2);
+		swap(line->y1, line->y2);
+		flag = 1;
+	}
+	// if (line->x1 > line->x2)
+	// {
+	// 	swap(line->x1, line->x2);
+	// 	swap(line->y1, line->y2);
+	// }
 	dx = line->x2 - line->x1;
 	dy = line->y2 - line->y1;
 	if (dx == 0)
-	{
 		draw_vertical_line(screen, line, dy);
-		return;
-	}
 	if (dy == 0)
-	{
 		draw_horizontal_line(screen, line, dx);
-		return;
-	}
-	m = dy / dx;
-	j = line->y1;
-	e = m - 1;
-	i = line->x1;
-	while (line->x1 < line->x2 - 1)
+	y = line->y1;
+	x = line->x1;
+	d = abs(dy) * 2;
+	e = 0;
+	while (x <= line->x2)
 	{
-		mlx_pixel_put(screen->mlx, screen->window, i, j, 0x00FFFFFF);
-		if (e >= 0)
+		if (flag)
+			mlx_pixel_put(screen->mlx, screen->window, y, x, 0x00FFFFFF);
+		else
+			mlx_pixel_put(screen->mlx, screen->window, x, y, 0x00FFFFFF);
+		e += d;
+		if (e > dx)
 		{
-			j += 1;
-			e -= 1.0;
+			y += line->y2 > line->y1 ? 1 : -1;
+			e -= dx * 2;
 		}
-		i += 1;
-		e += m;
-		line->x1++;
+		x++;
 	}
 }
