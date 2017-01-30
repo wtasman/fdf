@@ -51,49 +51,56 @@ void	draw_horizontal_line(window_data *screen, line_data *line, int dx)
 
 void	draw_line(window_data *screen, line_data *line)
 {
-	int	dx;
-	int dy;
-	float	e;
-	float	d;
-	int y;
-	int	x;
-	int flag;
+	int	w;
+	int	h;
+	int	dx1;
+	int	dy1;
+	int	dx2;
+	int	dy2;
+	int	longest;
+	int	shortest;
+	int	numerator;
+	int	i;
 
+	w = line->x2 - line->x1;
+	h = line->y2 - line->y1;
+	dx1 = 0;
+	dx2 = 0;
+	dy1 = 0;
+	dy2 = 0;
+	dx1 = w < 0 && w != 0 ? -1 : 1;
+	dy1 = h < 0 && h != 0 ? -1 : 1;
+	dx2 = w < 0 && w != 0 ? -1 : 1;
+	longest = abs(w);
+	shortest = abs(h);
 
-	flag = 0;
-	if (abs(line->x1 - line->x2) < abs(line->y1 - line->y2))
+	if (!(longest > shortest))
 	{
-		swap(line->x1, line->x2);
-		swap(line->y1, line->y2);
-		flag = 1;
+		longest = abs(h);
+		longest = abs(w);
+		if (h < 0)
+			dy2 = -1;
+		else if (h > 0)
+			dy2 = 1;
+		dx2 = 0;
 	}
-	// if (line->x1 > line->x2)
-	// {
-	// 	swap(line->x1, line->x2);
-	// 	swap(line->y1, line->y2);
-	// }
-	dx = line->x2 - line->x1;
-	dy = line->y2 - line->y1;
-	if (dx == 0)
-		draw_vertical_line(screen, line, dy);
-	if (dy == 0)
-		draw_horizontal_line(screen, line, dx);
-	y = line->y1;
-	x = line->x1;
-	d = abs(dy) * 2;
-	e = 0;
-	while (x <= line->x2)
+	numerator = longest >> 1;
+	i = 0;
+	while (i <= longest)
 	{
-		if (flag)
-			mlx_pixel_put(screen->mlx, screen->window, y, x, 0x00FFFFFF);
-		else
-			mlx_pixel_put(screen->mlx, screen->window, x, y, 0x00FFFFFF);
-		e += d;
-		if (e > dx)
+		mlx_pixel_put(screen->mlx, screen->window, line->x1, line->y1, 0x00FFFFFF);
+		numerator += shortest;
+		if (!(numerator < longest))
 		{
-			y += line->y2 > line->y1 ? 1 : -1;
-			e -= dx * 2;
+			numerator -= longest;
+			line->x1 += dx1;
+			line->y1 += dy1;
 		}
-		x++;
+		else 
+		{
+			line->x1 += dx2;
+			line->y1 += dy2;
+		}
+		i++;
 	}
 }

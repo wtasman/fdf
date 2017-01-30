@@ -1,27 +1,38 @@
 #include "fdf.h"
-
+#include <stdio.h>
 int main(void)
 {
 	window_data	*screen;
 	line_data	*line;
-	int x1;
-	int y1;
-	int x2;
-	int y2;
 
-	x1 = 500;
-	x2 = 500;
-	y1 = 500;
-	y2 = 800;
 	line = init_line();
 	screen = make_window();
-	while (y2 >= 500)
-	{	
-		fill_line(line, x1, y1, x2, y2);
-		draw_line(screen, line);
-		x2 -= 100;
-		y2 -= 100;
-	}
+	fill_line(line, 500, 500, 200, 500);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 300, 600);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 400, 700);
+	printf("%i", line->y2);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 500, 800);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 600, 700);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 700, 600);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 800, 500);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 700, 400);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 600, 300);
+	draw_line(screen, line);
+	fill_line(line, 500, 200, 500, 500);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 400, 300);
+	draw_line(screen, line);
+	fill_line(line, 500, 500, 300, 400);
+	draw_line(screen, line);
+	
 	//draw_rect(screen, 50, 50, 100, 900);
 	//draw_circle(screen, 500, 500, 250);
 	//draw_triangle(screen, 500, 500, 550, 500, 550, 550);
