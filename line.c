@@ -1,16 +1,5 @@
 #include "fdf.h"
 
-#define abs(x) ((x)<0 ? -(x) : (x))
-
-void	swap(int a, int b)
-{
-	int	tmp;
-
-	tmp = a;
-	a = b;
-	b = tmp;
-}
-
 line_data	*init_line(void)
 {
 	line_data	*line;
@@ -40,8 +29,8 @@ void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
 	line->dy = abs(y2 - y1);
 	line->y = y1;
 	line->x = x1;
-	line->offsetx = x1 > x2 ? -1 : 1;
-	line->offsety = y1 > y2 ? -1 : 1;
+	line->offsetx = x1 > x2 && line->dx != 0 ? -1 : 1;
+	line->offsety = y1 > y2 && line->dy != 0 ? -1 : 1;
 }
 
 void	draw_right(window_data *screen, line_data *line)
@@ -88,9 +77,9 @@ void	draw_line(window_data *screen, line_data *line)
 	{
 		while (line->x != line->x2)
 		{
-			line->x++;
-			line->y++;
+			line->x += line->offsetx;
+			line->y += line->offsety;
+			mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 		}
-		mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 	}
 }
