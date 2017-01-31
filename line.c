@@ -20,6 +20,13 @@ line_data	*init_line(void)
 	line->y1 = 0;
 	line->x2 = 0;
 	line->y2 = 0;
+	line->dx = 0;
+	line->dy = 0;
+	line->y = 0;
+	line->x = 0;
+	line->offsetx = 0;
+	line->offsety = 0;
+	line->error = 0;
 	return (line);
 }
 
@@ -29,78 +36,61 @@ void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
 	line->y1 = y1;
 	line->x2 = x2;
 	line->y2 = y2;
+	line->dx = abs(x2 - x1);
+	line->dy = abs(y2 - y1);
+	line->y = y1;
+	line->x = x1;
+	line->offsetx = x1 > x2 ? -1 : 1;
+	line->offsety = y1 > y2 ? -1 : 1;
 }
 
-void	draw_vertical_line(window_data *screen, line_data *line, int dy)
+void	draw_right(window_data *screen, line_data *line)
 {
-	while (dy > 0)
+	line->error = line->dx / 2;
+	while (line->x != line->x2)
 	{
-		mlx_pixel_put(screen->mlx, screen->window, line->x1, line->y1 + dy, 0x00FFFFFF);
-		dy--;
+		line->error = line->error - line->dy;
+		if (line->error < 0)
+		{
+			line->y = line->y + line->offsety;
+			line->error = line->error + line->dx;
+		}
+		line->x = line->x + line->offsetx;
+		mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 	}
 }
 
-void	draw_horizontal_line(window_data *screen, line_data *line, int dx)
+void	draw_up(window_data *screen, line_data *line)
 {
-	while (dx > 0)
+	line->error = line->dy / 2;
+	while (line->y != line->y2)
 	{
-		mlx_pixel_put(screen->mlx, screen->window, line->x1 + dx, line->y1, 0x00FFFFFF);
-		dx--;
+		line->error = line->error - line->dx;
+	
+		if (line->error < 0)
+		{
+			line->x = line->x + line->offsetx;
+			line->error = line->error + line->dy;
+		}
+		line->y = line->y + line->offsety;
+		mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 	}
 }
 
 void	draw_line(window_data *screen, line_data *line)
 {
-	int	w;
-	int	h;
-	int	dx1;
-	int	dy1;
-	int	dx2;
-	int	dy2;
-	int	longest;
-	int	shortest;
-	int	numerator;
-	int	i;
-
-	w = line->x2 - line->x1;
-	h = line->y2 - line->y1;
-	dx1 = 0;
-	dx2 = 0;
-	dy1 = 0;
-	dy2 = 0;
-	dx1 = w < 0 && w != 0 ? -1 : 1;
-	dy1 = h < 0 && h != 0 ? -1 : 1;
-	dx2 = w < 0 && w != 0 ? -1 : 1;
-	longest = abs(w);
-	shortest = abs(h);
-
-	if (!(longest > shortest))
+	mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
+	if (line->dx > line->dy)
+		draw_right(screen, line);
+	else if (line->dy > line->dx)
+		draw_up(screen, line);
+	else if (line->dy == line->dx)
 	{
-		longest = abs(h);
-		longest = abs(w);
-		if (h < 0)
-			dy2 = -1;
-		else if (h > 0)
-			dy2 = 1;
-		dx2 = 0;
-	}
-	numerator = longest >> 1;
-	i = 0;
-	while (i <= longest)
-	{
-		mlx_pixel_put(screen->mlx, screen->window, line->x1, line->y1, 0x00FFFFFF);
-		numerator += shortest;
-		if (!(numerator < longest))
+		while (line->x != line->x2)
 		{
-			numerator -= longest;
-			line->x1 += dx1;
-			line->y1 += dy1;
+			line->x++;
+			line->y++;
 		}
-		else 
-		{
-			line->x1 += dx2;
-			line->y1 += dy2;
-		}
-		i++;
+		mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 	}
 }

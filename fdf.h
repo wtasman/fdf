@@ -10,6 +10,13 @@ typedef	struct line_struct
 	int y1;
 	int x2;
 	int y2;
+	int dx;
+	int dy;
+	int y;
+	int x;
+	int	offsetx;
+	int	offsety;
+	int error;
 }	line_data;
 
 typedef struct window_struct
