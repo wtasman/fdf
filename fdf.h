@@ -4,7 +4,7 @@
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
 
-typedef	struct line_struct
+typedef	struct s_line
 {
 	int x1;
 	int y1;
@@ -17,20 +17,29 @@ typedef	struct line_struct
 	int	offsetx;
 	int	offsety;
 	int error;
-}	line_data;
+}	t_line;
 
-typedef struct window_struct
+typedef struct s_window
 {
 	void	*mlx;
 	void	*window;
-}	window_data;
+}	t_window;
 
-window_data	*make_window(void);
-void		draw_line(window_data *, line_data *);
-line_data	*init_line();
-void		fill_line(line_data *line, int x1, int y1, int x2, int y2);
-void		draw_rect(window_data *screen, int x1, int y1, int h, int w);
-void 		draw_circle(window_data *screen, int x0, int y0, int radius);
-void	draw_triangle(window_data *screen, int x1, int y1, int x2, int y2, int x3, int y3);
+typedef struct s_map
+{
+	int		fd;
+	int		width;
+	int		height;
+	int		**tab;
+}	t_map;
+
+t_window	*make_window(void);
+void		draw_line(t_window *, t_line *);
+t_line	*init_line();
+void		fill_line(t_line *line, int x1, int y1, int x2, int y2);
+void		draw_rect(t_window *screen, int x1, int y1, int h, int w);
+void 		draw_circle(t_window *screen, int x0, int y0, int radius);
+void	draw_triangle(t_window *screen, int x1, int y1, int x2, int y2, int x3, int y3);
+t_map	*read_map(char *file);
 
 #endif

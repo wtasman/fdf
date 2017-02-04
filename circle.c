@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void draw_circle(window_data *screen, int x0, int y0, int radius)
+void draw_circle(t_window *screen, int x0, int y0, int radius)
 {
     int x = radius;
     int y = 0;

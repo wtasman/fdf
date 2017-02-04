@@ -1,8 +1,8 @@
 #include "fdf.h"
 
-void	draw_triangle(window_data *screen, int x1, int y1, int x2, int y2, int x3, int y3)
+void	draw_triangle(t_window *screen, int x1, int y1, int x2, int y2, int x3, int y3)
 {
-	line_data	*line;
+	t_line	*line;
 
 	line = init_line();
 	//1st line of triangle

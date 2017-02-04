@@ -1,8 +1,8 @@
 #include "fdf.h"
 #include <stdio.h>
-void	draw_rect(window_data *screen, int x1, int y1, int h, int w)
+void	draw_rect(t_window *screen, int x1, int y1, int h, int w)
 {
-	line_data *line;
+	t_line *line;
 
 	line = init_line();
 	//top of rectangle

@@ -26,12 +26,13 @@ SRC = 	main.c\
 		line.c\
 		rect.c\
 		circle.c\
-		triangle.c
+		triangle.c\
+		read_map.c
 
 all: $(NAME)
 
 $(NAME): $(OBJ) 
-	$(CC) $(FLAGS) $(FINDLIB) $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) $(LFTLIB) $(FINDLIB) $(SRC) -o $(NAME)
 
 $(OBJ): $(SRC)
 	$(CC) $(FLAGS) -c $(SRC)

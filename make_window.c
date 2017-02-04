@@ -1,20 +1,20 @@
 #include "fdf.h"
 
-window_data	*init_window(void)
+t_window	*init_window(void)
 {
-	window_data	*screen;
+	t_window	*screen;
 
-	screen = (window_data *)malloc(sizeof(window_data));
+	screen = (t_window *)malloc(sizeof(t_window));
 	screen->mlx = NULL;
 	screen->window = NULL;
 	return (screen);
 }
 
-window_data	*make_window(void)
+t_window	*make_window(void)
 {
 	void	*mlx;
 	void	*window;
-	window_data	*screen;
+	t_window	*screen;
 
 	screen = init_window();
 	mlx = mlx_init();

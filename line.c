@@ -1,10 +1,10 @@
 #include "fdf.h"
 
-line_data	*init_line(void)
+t_line	*init_line(void)
 {
-	line_data	*line;
+	t_line	*line;
 
-	line = (line_data *)malloc(sizeof(line_data));
+	line = (t_line *)malloc(sizeof(t_line));
 	line->x1 = 0;
 	line->y1 = 0;
 	line->x2 = 0;
@@ -19,7 +19,7 @@ line_data	*init_line(void)
 	return (line);
 }
 
-void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
+void	fill_line(t_line *line, int x1, int y1, int x2, int y2)
 {
 	line->x1 = x1;
 	line->y1 = y1;
@@ -33,7 +33,7 @@ void	fill_line(line_data *line, int x1, int y1, int x2, int y2)
 	line->offsety = y1 > y2 && line->dy != 0 ? -1 : 1;
 }
 
-void	draw_right(window_data *screen, line_data *line)
+void	draw_right(t_window *screen, t_line *line)
 {
 	line->error = line->dx / 2;
 	while (line->x != line->x2)
@@ -49,7 +49,7 @@ void	draw_right(window_data *screen, line_data *line)
 	}
 }
 
-void	draw_up(window_data *screen, line_data *line)
+void	draw_up(t_window *screen, t_line *line)
 {
 	line->error = line->dy / 2;
 	while (line->y != line->y2)
@@ -66,7 +66,7 @@ void	draw_up(window_data *screen, line_data *line)
 	}
 }
 
-void	draw_line(window_data *screen, line_data *line)
+void	draw_line(t_window *screen, t_line *line)
 {
 	mlx_pixel_put(screen->mlx, screen->window, line->x, line->y, 0x00FFFFFF);
 	if (line->dx > line->dy)
