@@ -1,30 +1,6 @@
 #include "fdf.h"
-#include <stdio.h>
 
-void	init_map(t_map *map)
-{
-	map->width = 0;
-	map->height = 0;
-}
-
-int main(int argc, char **argv)
-{
-	if (argc == 2)
-	{
-		t_map	*map;
-		t_pnt	*verti;
-
-		map = (t_map *)malloc(sizeof(t_map));
-		init_map(map);
-		verti = read_map(map, argv[1]);
-		connect_dots(verti);
-	}
-	else
-		write(1, "usage: ./fdf map_file.fdf", 25);
-	return (0);
-}
-
-/*int	main()
+void	connect_dots(t_pnt	*verti)
 {
 	t_window	*screen;
 	t_line	*line;
@@ -66,11 +42,11 @@ int main(int argc, char **argv)
 	fill_line(line, 500, 500, 750, 250);
 	draw_line(screen, line);
 
-	//draw shapes
-	draw_rect(screen, 50, 50, 100, 900);
-	draw_circle(screen, 500, 500, 250);
-	draw_triangle(screen, 100, 100, 900, 100, 900, 900);
+	while (verti != NULL)
+	{
+		mlx_pixel_put(screen->mlx, screen->window, verti->x * 10, verti->y * 10, 0x00FFFFFF);
+		verti = verti->next;
+	}
 
 	mlx_loop(screen->mlx);
-	return(0);
-}*/
+}

@@ -27,11 +27,14 @@ SRC = 	main.c\
 		rect.c\
 		circle.c\
 		triangle.c\
-		read_map.c
+		temp_read.c\
+		connect_dots.c
 
 all: $(NAME)
 
-$(NAME): $(OBJ) 
+$(NAME): $(OBJ)
+	make -C ./minilibx/
+	make -C ./libft/
 	$(CC) $(FLAGS) $(LFTLIB) $(FINDLIB) $(SRC) -o $(NAME)
 
 $(OBJ): $(SRC)
