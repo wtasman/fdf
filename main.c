@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 		map = (t_map *)malloc(sizeof(t_map));
 		init_map(map);
 		verti = read_map(map, argv[1]);
-		connect_dots(verti);
+		connect_dots(verti, map);
 	}
 	else
 		write(1, "usage: ./fdf map_file.fdf", 25);

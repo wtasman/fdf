@@ -1,7 +1,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
-t_pnt	*ft_newpnts()
+t_pnt	*ft_newpnt()
 {
 	t_pnt	*new;
 
@@ -15,16 +15,18 @@ t_pnt	*ft_newpnts()
 	return (new);
 }
 
-void	ft_pntadd(t_pnt **verti, int x, int y, char *str)
+void	ft_pntadd(t_pnt *head, int x, int y, char *str)
 {
-	t_pnt	*vertex;
+	t_pnt	*current;
 
-	vertex = ft_newpnts();
-	vertex->x = x;
-	vertex->y = y;
-	vertex->z = ft_atoi(str);
-	vertex->next = (*verti);
-	(*verti) = vertex;
+	current = head;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = (t_pnt *)malloc(sizeof(t_pnt));
+	current->next->x = x;
+	current->next->y = y;
+	current->next->z = ft_atoi(str);
+	current->next->next = NULL;
 }
 
 void	print_pnts(t_pnt *verti)
@@ -51,7 +53,7 @@ void	make_tab(t_map	*map, t_pnt *verti, int fd)
 		temp = ft_strsplit(line, ' ');
 		while (i < map->width)
 		{
-			ft_pntadd(&verti, i, j, temp[i]);
+			ft_pntadd(verti, i, j, temp[i]);
 			i++;
 		}
 		j++;
@@ -85,7 +87,7 @@ t_pnt	*read_map(t_map *map, char *file)
 {
 	int fd;
 	int	i;
-	t_pnt	*vertices;
+	t_pnt	*head;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 	{
@@ -100,8 +102,8 @@ t_pnt	*read_map(t_map *map, char *file)
 		exit(0);
 	}
 	i = 0;
-	vertices = (t_pnt *)malloc(sizeof(t_pnt) * (map->width * map->height));
-	make_tab(map, vertices, fd);
+	head = ft_newpnt();
+	make_tab(map, head, fd);
 	close(fd);
-	return (vertices);
+	return (head);
 }

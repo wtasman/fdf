@@ -49,6 +49,7 @@ void		draw_rect(t_window *screen, int x1, int y1, int h, int w);
 void 		draw_circle(t_window *screen, int x0, int y0, int radius);
 void	draw_triangle(t_window *screen, int x1, int y1, int x2, int y2, int x3, int y3);
 t_pnt	*read_map(t_map *map, char *file);
-void	connect_dots(t_pnt	*verti);
+void	connect_dots(t_pnt	*verti, t_map *map);
+void	print_pnts(t_pnt *verti);
 
 #endif
