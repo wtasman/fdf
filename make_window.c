@@ -18,7 +18,7 @@ t_window	*make_window(void)
 
 	screen = init_window();
 	mlx = mlx_init();
-	window = mlx_new_window(mlx, 1000, 1000, "Screen");
+	window = mlx_new_window(mlx, 640, 480, "Screen");
 	screen->mlx = mlx;
 	screen->window = window;
 	return (screen);

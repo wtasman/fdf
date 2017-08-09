@@ -1,5 +1,4 @@
 #include "fdf.h"
-#include <stdio.h>
 
 void	connect_dots(t_pnt	*verti, t_map *map)
 {
@@ -8,17 +7,19 @@ void	connect_dots(t_pnt	*verti, t_map *map)
 	t_pnt	*temp;
 	int		i;
 	t_pnt	*next_y;
+	int		scale;
 
 	line = init_line();
 	screen = make_window();
 	temp = verti;
+	scale = 10;
 	
 	while (temp->next != NULL)
 	{
 		if (temp->x < map->width - 1)
 		{
-			//mlx_pixel_put(screen->mlx, screen->window, temp->x * 10, temp->y * 10, 0x00FFFFFF);
-			fill_line(line, temp->x * 10, temp->y * 10, temp->next->x * 10, temp->next->y * 10);
+			//mlx_pixel_put(screen->mlx, screen->window, temp->x * 35, temp->y * 35, 0x00FFFFFF);
+			fill_line(line, temp->x * scale, temp->y * scale, temp->next->x * scale, temp->next->y * scale);
 			draw_line(screen, line);
 		}
 		temp = temp->next;
@@ -29,7 +30,7 @@ void	connect_dots(t_pnt	*verti, t_map *map)
 	{
 		if (temp->y < map->height - 1)
 		{
-			//mlx_pixel_put(screen->mlx, screen->window, temp->x * 10, temp->y * 10, 0x00FFFFFF);
+			//mlx_pixel_put(screen->mlx, screen->window, temp->x * 35, temp->y * 35, 0x00FFFFFF);
 			next_y = temp;
 			i = 0;
 			while (i < map->width)
@@ -37,14 +38,11 @@ void	connect_dots(t_pnt	*verti, t_map *map)
 				next_y = next_y->next;
 				i++;
 			}
-			fill_line(line, temp->x * 10, temp->y * 10, next_y->x * 10, next_y->y * 10);
+			fill_line(line, temp->x * scale, temp->y * scale, next_y->x * scale, next_y->y * scale);
 			draw_line(screen, line);
 		}
 		temp = temp->next;
 	}
-
-
-
 	mlx_loop(screen->mlx);
 }
 
